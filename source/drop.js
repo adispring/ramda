@@ -19,7 +19,7 @@ import slice from './slice';
  * @param {Number} n
  * @param {*} list
  * @return {*} A copy of list without the first `n` elements
- * @see R.take, R.transduce, R.dropLast, R.dropWhile
+ * @see R.take, R.transduce, R.remove, R.dropLast, R.dropWhile
  * @example
  *
  *      R.drop(1, ['foo', 'bar', 'baz']); //=> ['bar', 'baz']
