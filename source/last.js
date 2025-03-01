@@ -1,4 +1,5 @@
-import nth from './nth.js';
+import _curry1 from './internal/_curry1.js';
+import _nth from './internal/_nth.js';
 
 
 /**
@@ -9,7 +10,7 @@ import nth from './nth.js';
  * @since v0.1.4
  * @category List
  * @sig [a] -> a | Undefined
- * @sig String -> String
+ * @sig String -> String | Undefined
  * @param {*} list
  * @return {*}
  * @see R.init, R.head, R.tail
@@ -19,7 +20,9 @@ import nth from './nth.js';
  *      R.last([]); //=> undefined
  *
  *      R.last('abc'); //=> 'c'
- *      R.last(''); //=> ''
+ *      R.last(''); //=> undefined
  */
-var last = nth(-1);
+var last = _curry1(function(list) {
+  return _nth(-1, list);
+});
 export default last;

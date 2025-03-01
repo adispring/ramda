@@ -20,21 +20,25 @@ var swapObject = function(indexA, indexB, o) {
 var swapList = function(indexA, indexB, list) {
   var length = list.length;
   var result = list.slice();
+
   var positiveIndexA = indexA < 0 ? length + indexA : indexA;
   var positiveIndexB = indexB < 0 ? length + indexB : indexB;
+
   var positiveMin = Math.min(positiveIndexA, positiveIndexB);
   var positiveMax = Math.max(positiveIndexA, positiveIndexB);
 
-  return positiveIndexA < 0 || positiveIndexA >= list.length
-      || positiveIndexB < 0 || positiveIndexB >= list.length
-      || positiveIndexA == positiveIndexB
-    ? result
-    : []
-      .concat(result.slice(0, positiveMin))
-      .concat(result[positiveMax])
-      .concat(result.slice(positiveMin + 1, positiveMax))
-      .concat(result[positiveMin])
-      .concat(result.slice(positiveMax + 1, list.length));
+  if (positiveIndexA < 0 || positiveIndexA > length) {return result;}
+  if (positiveIndexB < 0 || positiveIndexB > length) {return result;}
+  if (positiveIndexA === positiveIndexB) {return result;}
+
+  result = []
+    .concat(result.slice(0, positiveMin))
+    .concat([result[positiveMax]])
+    .concat(result.slice(positiveMin + 1, positiveMax))
+    .concat([result[positiveMin]])
+    .concat(result.slice(positiveMax + 1, length));
+
+  return result;
 };
 
 var swapString = function(indexA, indexB, s) {
@@ -50,6 +54,7 @@ var swapString = function(indexA, indexB, s) {
  *
  * @func
  * @memberOf R
+ * @since v0.29.0
  * @category List
  * @sig Number -> Number -> [a] -> [a]
  * @param {Number|string|Object} indexA The first index
@@ -59,8 +64,8 @@ var swapString = function(indexA, indexB, s) {
  * @example
  *
  *      R.swap(0, 2, ['a', 'b', 'c', 'd', 'e', 'f']); //=> ['c', 'b', 'a', 'd', 'e', 'f']
- *      R.swap(-1, 0, ['a', 'b', 'c', 'd', 'e', 'f']); //=> ['f', 'b', 'c', 'd', 'e', 'a'] list rotation
- *      R.swap('a', 'b', {a: 1, b: 2}); //=> {a: 2, b: 2}
+ *      R.swap(-1, 0, ['a', 'b', 'c', 'd', 'e', 'f']); //=> ['f', 'b', 'c', 'd', 'e', 'a']
+ *      R.swap('a', 'b', {a: 1, b: 2}); //=> {a: 2, b: 1}
  *      R.swap(0, 2, 'foo'); //=> 'oof'
  */
 var swap = _curry3(function(indexA, indexB, o) {

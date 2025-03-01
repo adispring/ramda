@@ -1,5 +1,6 @@
 var R = require('../source/index.js');
 var eq = require('./shared/eq.js');
+var {Just} = require('./shared/Maybe.js');
 
 
 describe('intersection', function() {
@@ -15,12 +16,15 @@ describe('intersection', function() {
     eq(R.intersection(M2, N2), [3, 4]);
   });
 
-  it('has R.equals semantics', function() {
-    function Just(x) { this.value = x; }
-    Just.prototype.equals = function(x) {
-      return x instanceof Just && R.equals(x.value, this.value);
-    };
+  it('does not allow duplicates in the output even if the first list is bigger and has duplicates', function() {
+    eq(R.intersection(M2, N), [3, 4]);
+  });
 
+  it('does not allow duplicates in the output even if the second list is bigger and has duplicates', function() {
+    eq(R.intersection(M, N2), [3, 4]);
+  });
+
+  it('has R.equals semantics', function() {
     eq(R.intersection([0], [-0]).length, 0);
     eq(R.intersection([-0], [0]).length, 0);
     eq(R.intersection([NaN], [NaN]).length, 1);

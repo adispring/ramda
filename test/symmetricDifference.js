@@ -1,6 +1,7 @@
 var R = require('../source/index.js');
 var eq = require('./shared/eq.js');
 var fc = require('fast-check');
+var {Just} = require('./shared/Maybe.js');
 
 
 describe('symmetricDifference', function() {
@@ -20,11 +21,6 @@ describe('symmetricDifference', function() {
   });
 
   it('has R.equals semantics', function() {
-    function Just(x) { this.value = x; }
-    Just.prototype.equals = function(x) {
-      return x instanceof Just && R.equals(x.value, this.value);
-    };
-
     eq(R.symmetricDifference([0], [-0]).length, 2);
     eq(R.symmetricDifference([-0], [0]).length, 2);
     eq(R.symmetricDifference([NaN], [NaN]).length, 0);
@@ -63,7 +59,7 @@ describe('symmetricDifference', function() {
 
   it('returns empty arrays when receiving an array and a permutation of it', function() {
     fc.assert(fc.property(fc.clone(compatibleREquals, 2).chain(function(arrays) {
-      return fc.tuple(fc.constant(arrays[0]), fc.shuffledSubarray(arrays[1], arrays[1].length, arrays[1].length));
+      return fc.tuple(fc.constant(arrays[0]), fc.shuffledSubarray(arrays[1], {minLength: arrays[1].length, maxLength: arrays[1].length}));
     }), function(arrays) {
       var A1 = arrays[0];
       var A2 = arrays[1];

@@ -1,6 +1,5 @@
 import _curry2 from './internal/_curry2.js';
-import _isString from './internal/_isString.js';
-
+import _nth from './internal/_nth.js';
 
 /**
  * Returns the nth element of the given list or string. If n is negative the
@@ -11,7 +10,7 @@ import _isString from './internal/_isString.js';
  * @since v0.1.0
  * @category List
  * @sig Number -> [a] -> a | Undefined
- * @sig Number -> String -> String
+ * @sig Number -> String -> String | Undefined
  * @param {Number} offset
  * @param {*} list
  * @return {*}
@@ -23,13 +22,10 @@ import _isString from './internal/_isString.js';
  *      R.nth(-99, list); //=> undefined
  *
  *      R.nth(2, 'abc'); //=> 'c'
- *      R.nth(3, 'abc'); //=> ''
+ *      R.nth(3, 'abc'); //=> undefined
  * @symb R.nth(-1, [a, b, c]) = c
  * @symb R.nth(0, [a, b, c]) = a
  * @symb R.nth(1, [a, b, c]) = b
  */
-var nth = _curry2(function nth(offset, list) {
-  var idx = offset < 0 ? list.length + offset : offset;
-  return _isString(list) ? list.charAt(idx) : list[idx];
-});
+var nth = _curry2(_nth);
 export default nth;

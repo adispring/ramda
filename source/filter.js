@@ -1,16 +1,17 @@
+import _arrayReduce from './internal/_arrayReduce.js';
 import _curry2 from './internal/_curry2.js';
 import _dispatchable from './internal/_dispatchable.js';
 import _filter from './internal/_filter.js';
+import _filterMap from './internal/_filterMap.js';
+import _isMap from './internal/_isMap.js';
 import _isObject from './internal/_isObject.js';
-import _reduce from './internal/_reduce.js';
 import _xfilter from './internal/_xfilter.js';
 import keys from './keys.js';
-
 
 /**
  * Takes a predicate and a `Filterable`, and returns a new filterable of the
  * same type containing the members of the given filterable which satisfy the
- * given predicate. Filterable objects include plain objects or any object
+ * given predicate. Filterable objects include plain objects, Maps, or any object
  * that has a filter method such as `Array`.
  *
  * Dispatches to the `filter` method of the second argument, if present.
@@ -21,6 +22,7 @@ import keys from './keys.js';
  * @memberOf R
  * @since v0.1.0
  * @category List
+ * @category Object
  * @sig Filterable f => (a -> Boolean) -> f a -> f a
  * @param {Function} pred
  * @param {Array} filterable
@@ -37,14 +39,16 @@ import keys from './keys.js';
 var filter = _curry2(_dispatchable(['fantasy-land/filter', 'filter'], _xfilter, function(pred, filterable) {
   return (
     _isObject(filterable) ?
-      _reduce(function(acc, key) {
+      _arrayReduce(function(acc, key) {
         if (pred(filterable[key])) {
           acc[key] = filterable[key];
         }
         return acc;
       }, {}, keys(filterable)) :
-    // else
-      _filter(pred, filterable)
+      _isMap(filterable) ?
+        _filterMap(pred, filterable) :
+      // else
+        _filter(pred, filterable)
   );
 }));
 export default filter;

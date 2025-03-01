@@ -26,3 +26,4 @@
  *      greet('Alice'); //=> 'Hello, Alice!'
  */
 export default {'@@functional/placeholder': true};
+

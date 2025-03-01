@@ -1,5 +1,6 @@
 var R = require('../source/index.js');
 var eq = require('./shared/eq.js');
+var {Just} = require('./shared/Maybe.js');
 
 
 describe('without', function() {
@@ -9,14 +10,10 @@ describe('without', function() {
 
   it('can act as a transducer', function() {
     eq(R.into([], R.without([1]), [1]), []);
+    eq(R.transduce(R.without([1]), R.flip(R.append), [], [1]), []);
   });
 
   it('has R.equals semantics', function() {
-    function Just(x) { this.value = x; }
-    Just.prototype.equals = function(x) {
-      return x instanceof Just && R.equals(x.value, this.value);
-    };
-
     eq(R.without([0], [-0]).length, 1);
     eq(R.without([-0], [0]).length, 1);
     eq(R.without([NaN], [NaN]).length, 0);

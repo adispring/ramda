@@ -20,11 +20,11 @@ import reduce from './reduce.js';
  * @sig [(*... -> Boolean)] -> (*... -> Boolean)
  * @param {Array} predicates An array of predicates to check
  * @return {Function} The combined predicate
- * @see R.anyPass
+ * @see R.anyPass, R.both
  * @example
  *
- *      const isQueen = R.propEq('rank', 'Q');
- *      const isSpade = R.propEq('suit', '♠︎');
+ *      const isQueen = R.propEq('Q', 'rank');
+ *      const isSpade = R.propEq('♠︎', 'suit');
  *      const isQueenOfSpades = R.allPass([isQueen, isSpade]);
  *
  *      isQueenOfSpades({rank: 'Q', suit: '♣︎'}); //=> false

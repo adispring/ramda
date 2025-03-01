@@ -1,0 +1,75 @@
+name: Coverage
+
+on:
+  pull_request_target:
+    types: [edited, opened, synchronize, ready_for_review, review_requested, reopened]
+
+jobs:
+  coverage:
+    if: github.repository == 'ramda/ramda'
+    runs-on: ubuntu-latest
+    name: Coverage
+
+    permissions:
+      issues: write
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Clean Install
+        run: npm ci
+
+      - name: Coverage Summary
+        id: coverage-summary
+        run: |
+          {
+            echo 'COVERAGE_SUMMARY_OUTPUT<<EOF'
+            npm run coverage:summary
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Coverage Details
+        id: coverage-details
+        run: |
+          {
+            echo 'COVERAGE_DETAILS_OUTPUT<<EOF'
+            npm run coverage:details
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Log Coverage
+        env:
+          COVERAGE_SUMMARY_OUTPUT: ${{ steps.coverage-summary.outputs.COVERAGE_SUMMARY_OUTPUT }}
+          COVERAGE_DETAILS_OUTPUT: ${{ steps.coverage-details.outputs.COVERAGE_DETAILS_OUTPUT }}
+        run: |
+          echo "$COVERAGE_SUMMARY_OUTPUT"
+          echo "$COVERAGE_DETAILS_OUTPUT"
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        continue-on-error: true
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Coverage Summary
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <details>
+              <summary>Coverage Summary</summary>
+
+              ```bash
+              ${{ steps.coverage-summary.outputs.COVERAGE_SUMMARY_OUTPUT }}
+              ```
+
+            </details>
+          edit-mode: replace
+

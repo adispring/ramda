@@ -1,9 +1,13 @@
 import _curry3 from './internal/_curry3.js';
+import _dispatchable from './internal/_dispatchable.js';
+import _xscan from './internal/_xscan.js';
 
 
 /**
  * Scan is similar to [`reduce`](#reduce), but returns a list of successively
- * reduced values from the left
+ * reduced values from the left.
+ *
+ * Acts as a transducer if a transformer is given in list position.
  *
  * @func
  * @memberOf R
@@ -22,15 +26,16 @@ import _curry3 from './internal/_curry3.js';
  *      const factorials = R.scan(R.multiply, 1, numbers); //=> [1, 1, 2, 6, 24]
  * @symb R.scan(f, a, [b, c]) = [a, f(a, b), f(f(a, b), c)]
  */
-var scan = _curry3(function scan(fn, acc, list) {
+var scan = _curry3(_dispatchable([], _xscan, function scan(fn, acc, list) {
   var idx = 0;
   var len = list.length;
-  var result = [acc];
+  var result = Array(len + 1);
+  result[0] = acc;
   while (idx < len) {
     acc = fn(acc, list[idx]);
     result[idx + 1] = acc;
     idx += 1;
   }
   return result;
-});
+}));
 export default scan;

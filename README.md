@@ -4,7 +4,6 @@ Ramda
 A practical functional library for JavaScript programmers.
 
 [![Build Status](https://github.com/ramda/ramda/workflows/Build/badge.svg)](https://github.com/ramda/ramda/actions?query=workflow%3ABuild)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/953a3c5ee423e5301d18/test_coverage)](https://codeclimate.com/github/ramda/ramda/test_coverage)
 [![npm module](https://badge.fury.io/js/ramda.svg)](https://www.npmjs.org/package/ramda)
 [![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno&labelColor=black)](https://deno.land/x/ramda@v0.27.2)
 [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/ramda)
@@ -118,13 +117,13 @@ or the minified version:
 or from a CDN, either cdnjs:
 
 ```html
-<script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.27.1/ramda.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.30.0/ramda.min.js"></script>
 ```
 
 or one of the below links from [jsDelivr](http://jsdelivr.com):
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/ramda@0.27.1/dist/ramda.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/ramda@latest/dist/ramda.min.js"></script>
 ```
 
@@ -154,10 +153,6 @@ It is possible to build Ramda with a subset of the functionality to reduce its f
     npm run --silent partial-build compose reduce filter > dist/ramda.custom.js
 
 This requires having Node/io.js installed and ramda's dependencies installed (just use `npm install` before running partial build). 
-
-### Install specific functions
-
-[Install individual functions](https://bitsrc.io/ramda/ramda) with bit, npm and yarn without installing the whole library.
 
 Documentation
 -------------

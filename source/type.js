@@ -11,7 +11,7 @@ import _curry1 from './internal/_curry1.js';
  * @memberOf R
  * @since v0.8.0
  * @category Type
- * @sig (* -> {*}) -> String
+ * @sig * -> String
  * @param {*} val The value to test
  * @return {String}
  * @example
@@ -24,7 +24,9 @@ import _curry1 from './internal/_curry1.js';
  *      R.type([]); //=> "Array"
  *      R.type(/[A-z]/); //=> "RegExp"
  *      R.type(() => {}); //=> "Function"
+ *      R.type(async () => {}); //=> "AsyncFunction"
  *      R.type(undefined); //=> "Undefined"
+ *      R.type(BigInt(123)); //=> "BigInt"
  */
 var type = _curry1(function type(val) {
   return val === null

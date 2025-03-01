@@ -10,7 +10,7 @@ describe('dropRepeatsWith', function() {
     {i: 1}, {i: 1}, {i: 1}, {i: 2}, {i: 3},
     {i: 3}, {i: 4}, {i: 4}, {i: 5}, {i: 3}
   ];
-  var eqI = R.eqProps('i');
+  var eqI = (a, b) => a.i === b.i;
 
   it('removes repeated elements based on predicate', function() {
     eq(R.dropRepeatsWith(eqI, objs2), objs);
@@ -30,6 +30,7 @@ describe('dropRepeatsWith', function() {
 
   it('can act as a transducer', function() {
     eq(R.into([], R.dropRepeatsWith(eqI), objs2), objs);
+    eq(R.transduce(R.dropRepeatsWith(eqI), R.flip(R.append), [], objs2), objs);
   });
 
 });
